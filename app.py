@@ -1,23 +1,26 @@
+import json
+import os
 from flask import Flask, render_template, request
 import firebase_admin
 from firebase_admin import credentials
 from openai import OpenAI
 from dotenv import load_dotenv
-import os
 
 app = Flask(__name__)
 
-# ✅ 載入 .env 檔案
+# ✅ 載入 .env（本地開發用）
 load_dotenv()
 
-# ✅ 讀取 API key
+# ✅ 讀取 OpenAI API key
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
-# ✅ Firebase 初始化
-cred = credentials.Certificate("firebase_config.json")
+# ✅ 從環境變數中讀取 Firebase JSON 憑證
+firebase_json = os.getenv("FIREBASE_CONFIG")
+firebase_dict = json.loads(firebase_json)
+cred = credentials.Certificate(firebase_dict)
 firebase_admin.initialize_app(cred)
 
-# ✅ OpenAI 初始化
+# ✅ 初始化 OpenAI
 client = OpenAI(api_key=openai_api_key)
 
 # ✅ 呼叫 OpenAI 的函數
@@ -31,12 +34,12 @@ def query_openai(prompt):
     except Exception as e:
         return f"❌ OpenAI 回應錯誤：{str(e)}"
 
-# ✅ 首頁路由
+# ✅ 首頁
 @app.route("/")
 def index():
     return render_template("index.html")
 
-# ✅ 穿搭建議頁面
+# ✅ 穿搭頁面
 @app.route("/fashion", methods=["GET", "POST"])
 def fashion():
     if request.method == "POST":
@@ -50,8 +53,7 @@ def talking():
     if request.method == "POST":
         user_input = request.form.get("user_input", "")
         if user_input:
-            #prompt = f"You are a Makes you feel relaxed and warm, flirty woman chatting with a man. He says: \"{user_input}\" What would you say?"
-            prompt = f"你是一个让人感到温暖、放松且带点俏皮调情的女性，正在与一位男性聊天。你的回应应让他感到舒适、被重视，并被温柔地吸引。他说：\"{user_input}\" 你会如何回应？"
+            prompt = f"你是一个让人感到温暖、放松且带点俏皮调情的女性，正在与一位男性聊天。他说：\"{user_input}\" 你会如何回应？"
             ai_response = query_openai(prompt)
     return render_template("talking.html", ai_response=ai_response)
 
@@ -60,5 +62,9 @@ def talking():
 def finance():
     return render_template("finance.html")
 
+# ✅ 執行
+#if __name__ == "__main__":
+#    app.run(debug=True)
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)
