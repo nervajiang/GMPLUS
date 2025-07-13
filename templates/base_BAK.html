@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>普男升級研究計畫</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>普男升級研究計畫</h1>
+        <nav>
+            <a href="{{ url_for('fashion') }}">向孔雀學習讓人印象深刻的穿搭!</a>
+            <a href="{{ url_for('talking') }}">學習向騙子一樣的高級話術!</a>
+            <a href="{{ url_for('finance') }}">開車兜風吃飯逛街，營造幻覺總是錢</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

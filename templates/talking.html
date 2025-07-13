@@ -1,0 +1,16 @@
+<!-- templates/talking.html -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>AI 對話訓練</h2>
+    <form method="post">
+        <label for="user_input">輸入一句話：</label><br>
+        <input type="text" name="user_input" id="user_input" required><br><br>
+        <input type="submit" value="送出">
+    </form>
+
+    {% if ai_response %}
+        <h3>AI 回覆：</h3>
+        <p>{{ ai_response }}</p>
+    {% endif %}
+{% endblock %}

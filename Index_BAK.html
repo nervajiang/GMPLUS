@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>普男升級研究計畫</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script>
+    // Firebase 設定（請用你的 Firebase 專案資料取代）
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    function googleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .then(result => {
+          document.getElementById("user-info").innerText = `歡迎，${result.user.displayName}`;
+        })
+        .catch(error => console.error(error));
+    }
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    nav {
+      width: 200px;
+      background-color: #ecf0f1;
+      position: fixed;
+      top: 80px;
+      bottom: 0;
+      left: 0;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+    nav a {
+      display: block;
+      margin-bottom: 15px;
+      text-decoration: none;
+      color: #2c3e50;
+      font-weight: bold;
+    }
+    main {
+      margin-left: 220px;
+      padding: 40px;
+    }
+    #user-info {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    普男升級研究計畫
+    <div>
+      <button onclick="googleLogin()">用 Google 登入</button>
+      <div id="user-info"></div>
+    </div>
+  </header>
+  <nav>
+    <a href="#page-fashion">學習像孔雀一樣的穿搭</a>
+    <a href="#page-talk">學習像騙子一樣的高級話術</a>
+    <a href="#page-money">試著用錢砸看看</a>
+  </nav>
+  <main>
+    <!-- 引言區塊 -->
+    <section>
+      <p>&lt;BODY&gt;晚點再修改&lt;BODY/&gt;</p>
+    </section>
+
+    <!-- 孔雀穿搭頁面（AI辨識功能） -->
+    <section id="page-fashion">
+      <h2>學習像孔雀一樣的穿搭</h2>
+      <p>上傳你的照片，我們會用 AI 提供穿搭建議（功能開發中）</p>
+     <!----> <input type="file" id="upload-img" accept="image/*">
+     <!----> <div id="ai-fashion-result"></div>
+    </section>
+
+    <!-- 騙子話術頁面（AI聊天功能） -->
+    <section id="page-talk">
+      <h2>學習像騙子一樣的高級話術</h2>
+      <div>
+        <textarea id="user-input" rows="4" cols="50" placeholder="輸入你想說的話..."></textarea>
+        <br>
+       <!----> <button onclick="askAI()">請 AI 教我說得更高級</button>
+       <!----> <div id="ai-response" style="margin-top: 20px; font-weight: bold;"></div>
+      </div>
+    </section>
+
+    <!-- 錢砸看看頁面 -->
+    <section id="page-money">
+      <h2>試著用錢砸看看</h2>
+      <!----><p>（未來會加入金流模擬功能）</p>
+    </section>
+  </main>
+
+  <script>
+    async function askAI() {
+      const input = document.getElementById("user-input").value;
+      document.getElementById("ai-response").innerText = "AI 回覆中...";
+
+      // 模擬 AI 回覆，可替換為 GPT API 呼叫
+      setTimeout(() => {
+        document.getElementById("ai-response").innerText = `你可以這樣說：『${input}，令人無法抗拒。』`;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
